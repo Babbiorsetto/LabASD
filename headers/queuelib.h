@@ -61,7 +61,7 @@ void stampaQueue(queue *Q);
 */
 void randomizzaQueue(queue *Q, int numeroElementi, int valoreMax);
 /*dato un puntatore a queue e due interi
-*se il puntatore non e' NULL
+*se il puntatore non e' NULL e valoreMax e' maggiore di 0
 *inserisce nella queue numeroElementi interi compresi fra 1 e valoreMax, oppure si ferma quando la queue si riempie
 */
 #endif

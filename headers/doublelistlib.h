@@ -23,6 +23,7 @@ typedef delem* dlista;
 dlista inizializzaListaDop(dlista top);
 /*data una lista doppiamente puntata
 *chiede all'utente quanti elementi vuole inserire in essa e, nel caso in cui siano più di 0, li inserisce.
+*ritorna un puntatore alla testa della lista
 */
 void stampaListaDop(dlista top);
 /*data una lista doppiamente puntata
@@ -65,6 +66,7 @@ dlista eliminaTopDop(dlista top);
 */
 dlista randomizzaListaDop(dlista top, int numeroElementi, int valoreMax);
 /*data una lista doppiamente puntata e due interi
+*se valoreMax e' maggiore di 0
 *inserisce nella lista numeroElementi interi compresi fra 1 e valoreMax
 *restituisce il nuovo top della lista
 */

@@ -7,7 +7,7 @@ int listaVuotaDummy(dummyList dum){
   int ret = 0;
 
   if(dum == NULL){
-    printf("ERRORE in listaVuotaDummy: il puntatore passato non contiene una lista\n");
+    printf("ERRORE in listaVuotaDummy: puntatore NULL\n");
     ret = 1;
   }else if(dum->next == dum){
     ret = 1;
@@ -109,14 +109,19 @@ int aggiungiInTestaDummy(dummyList dum, int k){
 void stampaListaDummyHelper(dummyList curr, dummyList dum){
 
   if(curr!=dum){
-    printf("%d, ", curr->info);
+    printf("%d -> ", curr->info);
     stampaListaDummyHelper(curr->next, dum);
   }
   return;
 }
 
 void stampaListaDummy(dummyList dum){
-  stampaListaDummyHelper(dum->next, dum);
+
+  if(!listaVuotaDummy(dum)){
+    stampaListaDummyHelper(dum->next, dum);
+  }
+  printf("//\n");
+
   return;
 }
 

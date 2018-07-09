@@ -44,6 +44,7 @@ void riempiStack(stack *S){
       scanf("%d", &x);
 
       push(S, x);
+      i++;
     }
 
   }else{
@@ -166,7 +167,7 @@ void stampaS(stack *S){
 
   if(!stackEmpty(S)){
     i = pop(S);//estrae un elemento
-    stampaStack(S);//stampa il resto dello stack
+    stampaS(S);//stampa il resto dello stack
     printf("%d ", i);//stampa l'elemento
     push(S, i);//reinserisce l'elemento nello stack
   }
@@ -190,15 +191,19 @@ void randomizzaStack(stack *S, int numeroElementi, int valoreMax){
 
   int i = 0;
 
-  if(S != NULL){
+  if(valoreMax > 0){
+    if(S != NULL){
 
-    while(i < numeroElementi && !stackFull(S)){
-      push(S, ( rand() % valoreMax ) + 1);
-      i++;
+      while(i < numeroElementi && !stackFull(S)){
+        push(S, ( rand() % valoreMax ) + 1);
+        i++;
+      }
+
+    }else{
+      printf("ERRORE in randomizzaStack: puntatore NULL\n");
     }
-
   }else{
-    printf("ERRORE in randomizzaStack: puntatore NULL\n");
+    printf("ERRORE in randomizzaStack: valoreMax non puo' essere minore di 1\n");
   }
 
   return;

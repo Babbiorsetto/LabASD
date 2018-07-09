@@ -2,12 +2,20 @@
 #include <stdlib.h>
 #include "listlib.h"
 
-void stampaLista(lista top){
+void stampaListaHelper(lista top){
 
   if(top != NULL){
-    printf("%d ", top->info);//stampa il campo info del top della lista
-    stampaLista(top->next);//richiama sul resto della lista
+    printf("%d -> ", top->info);//stampa il campo info del top della lista
+    stampaListaHelper(top->next);//richiama sul resto della lista
   }
+
+  return;
+}
+
+void stampaLista(lista top){
+
+  stampaListaHelper(top);
+  printf("//\n");
 
   return;
 }

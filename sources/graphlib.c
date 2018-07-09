@@ -62,17 +62,18 @@ void menuGrafo(grafo *g){
       }while(scelta < 1 || scelta > 3);
 
       if(scelta == 1 || scelta == 2){
-        printf("Inserire il vertice di partenza:\n");
+        printf("Inserire il vertice di partenza: ");
         scanf("%d", &part);
 
-        printf("Inserire il vertice di arrivo.\n");
+        printf("Inserire il vertice di arrivo: ");
         scanf("%d", &arr);
 
         if(g->pesato == 1 && scelta == 1){  //se l'operazione è di aggiunta e il grafo è pesato, allora viene preso da tastiera il peso.
-          printf("Inserire il peso dell'arco.\n");
+          printf("Inserire il peso dell'arco: ");
           scanf("%d", &peso);
         }
       }
+      printf("\n");
 
       switch(scelta){
         case 1:

@@ -14,7 +14,7 @@ void inizializzaABR(albero *radice){
   int i = 0;
 
   do{
-    printf("Quanti elementi inserire?: ");
+    printf("Quanti elementi inserire nell'ABR?: ");
     scanf("%d", &scelta);
   }while(scelta < 0);
 
@@ -28,6 +28,7 @@ void inizializzaABR(albero *radice){
       i++;
     }
   }
+  printf("\n");
 
   return;
 }
@@ -143,22 +144,24 @@ int ricercaInABR(albero radice, int key){
 int inserisciInABR(albero *radice, int e){
 
   int temp;
-  int ret = 1;
+  int ret;
   albero x;
 
   if(!valoreRadice(*radice, &temp)){
     x = costruisciAlbero(e, NULL, NULL);
     if(x != NULL){
       *radice = x;
+      ret = 1;
     }else{
       printf("ERRORE in inserisciInABR: impossibile allocare memoria\n");
+      ret = 0;
     }
   }else if(e < temp){
-    inserisciInABR(&((*radice)->sx), e);
+    ret = inserisciInABR(&((*radice)->sx), e);
   }else if(e > temp){
-    inserisciInABR(&((*radice)->dx), e);
+    ret = inserisciInABR(&((*radice)->dx), e);
   }else{
-    ret = 0;
+    ret = 0;//l'elemento era gia' presente
   }
 
   return ret;

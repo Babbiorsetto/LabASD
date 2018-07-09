@@ -85,6 +85,7 @@ void menuGrafoMatrix(grafomat *g){
           scanf("%d", &peso);
         }
       }
+      printf("\n");
 
       switch(scelta){
         case 1:

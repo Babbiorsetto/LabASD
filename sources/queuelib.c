@@ -44,6 +44,7 @@ void riempiQueue(queue *Q){
       scanf("%d", &x);
 
       enqueue(Q, x);
+      i++;
     }
 
   }else{
@@ -194,15 +195,19 @@ void randomizzaQueue(queue *Q, int numeroElementi, int valoreMax){
 
   int i = 0;
 
-  if(Q != NULL){
+  if(valoreMax > 0){
+    if(Q != NULL){
 
-    while(i < numeroElementi && !queueFull(Q)){
-      enqueue(Q, ( rand() % valoreMax ) + 1);
-      i++;
+      while(i < numeroElementi && !queueFull(Q)){
+        enqueue(Q, ( rand() % valoreMax ) + 1);
+        i++;
+      }
+
+    }else{
+      printf("ERRORE in randomizzaQueue: puntatore NULL\n");
     }
-
   }else{
-    printf("ERRORE in randomizzaQueue: puntatore NULL\n");
+    printf("ERRORE in randomizzaQueue: valoreMax non puo' essere minore di 1\n");
   }
 
   return;

@@ -9,7 +9,7 @@ dlista inizializzaListaDop(dlista top){
   dlista ret = top;
 
   do{
-    printf("Quanti elementi inserire?: ");
+    printf("Quanti elementi inserire nella lista doppia?: ");
     scanf("%d", &scelta);
   }while(scelta < 0);
 
@@ -18,19 +18,25 @@ dlista inizializzaListaDop(dlista top){
     scanf("%d", &x);
     ret = aggiungiInCodaDop(ret, x);
   }
+  printf("\n");
 
   return ret;
 }
 
-
-void stampaListaDop(dlista top){
+void stampaListaDopHelper(dlista top){
 
   if(top != NULL){
     printf("%d -> ", top->info);//stampa il campo info del top della lista
-    stampaListaDop(top->next);//richiama sul resto della lista
-  }else{
-    printf("//");
+    stampaListaDopHelper(top->next);//richiama sul resto della lista
   }
+
+  return;
+}
+
+void stampaListaDop(dlista top){
+
+  stampaListaDopHelper(top);//richiama sul resto della lista
+  printf("//\n");
 
   return;
 }
@@ -151,8 +157,12 @@ dlista randomizzaListaDop(dlista top, int numeroElementi, int valoreMax){
   int i;
   dlista ret = top;
 
-  for(i = 0; i < numeroElementi; i++){
-    ret = aggiungiInCodaDop(ret, ( rand() % valoreMax ) + 1);
+  if(valoreMax > 0){
+    for(i = 0; i < numeroElementi; i++){
+      ret = aggiungiInCodaDop(ret, ( rand() % valoreMax ) + 1);
+    }
+  }else{
+    printf("ERRORE in randomizzaListaDop: valoreMax non puo' essere minore di 1\n");
   }
 
   return ret;
