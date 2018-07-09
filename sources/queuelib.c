@@ -156,23 +156,30 @@ void stampaQ(queue *Q){
 
   if (!queueEmpty(Q)){
     x = dequeue(Q);//estrae un valore dalla queue
-    stampaQ(Q);//stampa il resto della queue
     printf("%d ", x);//stampa il valore estratto
+    stampaQ(Q);//stampa il resto della queue
     enqueue(Q, x);//reinserisce il valore nella queue
   }
   //la queue sara' invertita all'uscita dalla funzione
   return;
 }
 
-void reverse(queue *Q){
+void reverseQueue(queue *Q){
 
   int x;
 
-  if(!queueEmpty(Q)){
-    x = dequeue(Q);//estrae un elemento
-    reverse(Q);//inverte il resto della queue
-    enqueue(Q, x);//reinserisce l'elemento estratto
+  if(Q != NULL){
+
+    if(!queueEmpty(Q)){
+      x = dequeue(Q);//estrae un elemento
+      reverseQueue(Q);//inverte il resto della queue
+      enqueue(Q, x);//reinserisce l'elemento estratto
+    }
+
+  }else{
+    printf("ERRORE in reverseQueue: puntatore NULL\n");
   }
+
   return;
 }
 
@@ -181,7 +188,7 @@ void stampaQueue(queue *Q){
   if(Q != NULL){
 
     stampaQ(Q);//stampa la queue e la inverte come effetto collaterale
-    reverse(Q);//inverte la queue per ripristinare l'ordine iniziale
+    reverseQueue(Q);//inverte la queue per ripristinare l'ordine iniziale
     printf("\n");
 
   }else{

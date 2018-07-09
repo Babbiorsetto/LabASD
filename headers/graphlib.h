@@ -47,7 +47,7 @@ int isPesato(grafo *g);
 */
 void stampaGrafo(grafo *g);
 /*Prende in ingresso un puntatore a grafo
-*stampa in stdout gli archi del grafo puntato da g completi di peso qualora il grafo fosse pesato
+*per ogni vertice stampa su una riga tutti gli archi uscenti completi di peso qualora il grafo fosse pesato
 */
 int numeroVertici(grafo *g);
 /*prende in ingresso un puntatore a grafo

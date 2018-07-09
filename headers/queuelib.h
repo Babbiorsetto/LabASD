@@ -64,4 +64,9 @@ void randomizzaQueue(queue *Q, int numeroElementi, int valoreMax);
 *se il puntatore non e' NULL e valoreMax e' maggiore di 0
 *inserisce nella queue numeroElementi interi compresi fra 1 e valoreMax, oppure si ferma quando la queue si riempie
 */
+void reverseQueue(queue *Q);
+/*dato un puntatore a queue
+*se il puntatore non e' NULL
+*inverte la queue sul posto
+*/
 #endif

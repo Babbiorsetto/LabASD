@@ -161,25 +161,18 @@ int top(stack *S){
   return ret;
 }
 
-void stampaS(stack *S){
-
-  int i;
-
-  if(!stackEmpty(S)){
-    i = pop(S);//estrae un elemento
-    stampaS(S);//stampa il resto dello stack
-    printf("%d ", i);//stampa l'elemento
-    push(S, i);//reinserisce l'elemento nello stack
-  }
-
-  return;
-}
-
 void stampaStack(stack *S){
 
+  int i;
   if(S != NULL){
-    stampaS(S);//stampa lo stack
-    printf("\n");//stampa newline
+    if(!stackEmpty(S)){
+      i = pop(S);//estrae un elemento
+      printf("%d ", i);//stampa l'elemento
+      stampaStack(S);//stampa il resto dello stack
+      push(S, i);//reinserisce l'elemento nello stack
+    }else{
+      printf("\n");
+    }
   }else{
     printf("ERRORE in stampaStack: puntatore NULL\n");
   }
@@ -204,6 +197,26 @@ void randomizzaStack(stack *S, int numeroElementi, int valoreMax){
     }
   }else{
     printf("ERRORE in randomizzaStack: valoreMax non puo' essere minore di 1\n");
+  }
+
+  return;
+}
+
+void reverseStack(stack *S, stack *invertito){
+
+  int x;
+
+  if(S != NULL && invertito != NULL && S != invertito){
+
+    if(!stackEmpty(S)){
+      x = pop(S);//estrae un elemento
+      push(invertito, x);
+      reverseStack(S, invertito);
+      push(S, x);
+    }
+
+  }else{
+    printf("ERRORE in reverseStack: puntatore NULL o puntatori uguali\n");
   }
 
   return;

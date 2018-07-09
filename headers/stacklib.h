@@ -69,4 +69,9 @@ void randomizzaStack(stack *S, int numeroElementi, int valoreMax);
 *se il puntatore non e' NULL e valoreMax e' maggiore di 0
 *inserisce nello stack numeroElementi interi compresi fra 1 e valoreMax, oppure si ferma quando lo stack si riempie
 */
+void reverseStack(stack *S, stack *invertito);
+/*dati due puntatori a stack
+*se i puntatori non sono NULL e non puntano allo stesso stack
+*inserisce nello stack puntato da invertito gli elementi di S in ordine inverso
+*/
 #endif
