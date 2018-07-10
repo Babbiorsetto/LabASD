@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "graphlib.h"
+#include "inputReader.h"
 
 int grafoVuoto(grafo *g){
     return (g == NULL);
@@ -48,7 +49,6 @@ int nuovoGrafo(int vertici, grafo **g, int pesato){
 
 void menuGrafo(grafo *g){
 
-  int i;
   int scelta = -1, esci = 0;
   int part, arr, peso = 0;
 
@@ -58,19 +58,25 @@ void menuGrafo(grafo *g){
 
       do{
         printf("Seleziona operazione\n1 = aggiungiArco\n2 = rimuoviArco\n3 = esci\n");
-        scanf("%d", &scelta);
+        getPositive(&scelta);
       }while(scelta < 1 || scelta > 3);
 
-      if(scelta == 1 || scelta == 2){
-        printf("Inserire il vertice di partenza: ");
-        scanf("%d", &part);
 
-        printf("Inserire il vertice di arrivo: ");
-        scanf("%d", &arr);
+      if(scelta == 1 || scelta == 2){
+        do{
+          printf("Inserire il vertice di partenza (max %d): ", (g->n_vertici)-1);
+        }while(!getPositive(&part));
+
+        do{
+          printf("Inserire il vertice di arrivo (max %d): ", (g->n_vertici)-1);
+        }while(!getPositive(&arr));
 
         if(g->pesato == 1 && scelta == 1){  //se l'operazione è di aggiunta e il grafo è pesato, allora viene preso da tastiera il peso.
-          printf("Inserire il peso dell'arco: ");
-          scanf("%d", &peso);
+
+          do{
+            printf("Inserire il peso dell'arco: ");
+          }while(!getPositive(&peso));
+
         }
       }
       printf("\n");

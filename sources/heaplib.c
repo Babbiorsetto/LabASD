@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "heaplib.h"
+#include "inputReader.h"
 
 void heapify(int albero[], int radice, int dimensione){
 
@@ -69,12 +70,17 @@ void heapSort(int heap[], int dimensione){
 
 void riempiArray(int array[], int dimensione){
 
-  int i;
+  int i = 0;
 
-  for (i = 0; i < dimensione; i++){//per dimensione volte
+  while(i < dimensione){
 
     printf("Inserire elemento %d: ", i);//richiede un intero
-    scanf("%d", array + i);//lo inserisce nell'array
+    if(getInt(array+i)){
+      i++;
+    }else{
+      printf("Elemento non valido\n");
+    }
+    
   }
 
   return;

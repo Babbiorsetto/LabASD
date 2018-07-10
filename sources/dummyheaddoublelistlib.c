@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "dummyheaddoublelistlib.h"
+#include "inputReader.h"
 
 int listaVuotaDummy(dummyList dum){
 

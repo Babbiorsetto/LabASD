@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "stacklib.h"
+#include "inputReader.h"
 
 stack *creaStack(int dim_max){
 
@@ -36,15 +37,17 @@ void riempiStack(stack *S){
 
     do{
       printf("Quanti elementi inserire nello stack?: ");
-      scanf("%d", &scelta);
-    }while(scelta < 0);
+    }while(!getPositive(&scelta));
 
     while(i < scelta && !stackFull(S)){
       printf("inserire elemento %d: ", i+1);
-      scanf("%d", &x);
 
-      push(S, x);
-      i++;
+      if(getInt(&x)){
+        push(S, x);
+        i++;
+      }else{
+        printf("Elemento non valido\n");
+      }
     }
 
   }else{

@@ -12,16 +12,20 @@ int getPositive(int *data){
 	int i; // indice per scorrere la stringa letta
 	char buffer[51];
 
-	scanf("%50s",buffer);
+	scanf("%50s", buffer);
 	clearBuffer();
 
 	i = 0;
 
-	while( buffer[i]>47 && buffer[i]<58 ) i++;
+	while( buffer[i] > 47 && buffer[i] < 58 ){
+    i++;
+  }
 
-	ok = (buffer[i]=='\0' && i>0 );
+	ok = (buffer[i] == '\0' && i > 0 );
 
-	if(ok) *data = atoi(buffer);
+	if(ok){
+    *data = atoi(buffer);
+  }
 
 	return ok;
 }
@@ -35,38 +39,49 @@ int getFloat(float *f){
 	scanf("%50s",buffer);
 	clearBuffer();
 
-	cont = off = (buffer[0]=='-') ? 1 : 0;
-	while(buffer[cont]>47 && buffer[cont]<58) cont++;
-	if(buffer[cont]=='.'){
+	cont = off = (buffer[0] == '-') ? 1 : 0;
+
+	while(buffer[cont] > 47 && buffer[cont] < 58) {
+    cont++;
+  }
+
+	if(buffer[cont] == '.'){
 		cont++;
 		off++;
-		while(buffer[cont]>47 && buffer[cont]<58) cont++;
+		while(buffer[cont] > 47 && buffer[cont] < 58) {
+      cont++;
+    }
 	}
 
-	ret = (buffer[cont]=='\0' && cont>off);
+	ret = (buffer[cont] == '\0' && cont > off);
 
-	if(ret)
+	if(ret){
 		*f = atof(buffer);
+  }
 
 	return ret;
 }
 
 int getInt(int *data){
-	int ok, // ritorno della funzione
-		i, // indice per scorrere la stringa letta
-		negative; // indica se il numero � negativo
+	int ok; // ritorno della funzione
+	int	i; // indice per scorrere la stringa letta
+	int negative; // indica se il numero � negativo
 	char buffer[51];
 
 	scanf("%50s",buffer);
 	clearBuffer();
 
-	i = negative = (buffer[0]=='-') ? 1 : 0 ;
+	i = negative = (buffer[0] == '-') ? 1 : 0 ;
 
-	while( buffer[i]>47 && buffer[i]<58 ) i++;
+	while( buffer[i] > 47 && buffer[i] < 58 ){
+    i++;
+  }
 
-	ok = (buffer[i]=='\0' && i>negative );
+	ok = (buffer[i] == '\0' && i > negative );
 
-	if(ok) *data = atoi(buffer);
+	if(ok){
+    *data = atoi(buffer);
+  }
 
 	return ok;
 }

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "generictreelib.h"
+#include "inputReader.h"
 
 galbero nuovoGnodo(int key){
 

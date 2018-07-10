@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "abrlib.h"
+#include "inputReader.h"
 
 int alberoVuoto(albero radice){
 
@@ -15,17 +16,18 @@ void inizializzaABR(albero *radice){
 
   do{
     printf("Quanti elementi inserire nell'ABR?: ");
-    scanf("%d", &scelta);
-  }while(scelta < 0);
+  }while(!getPositive(&scelta));
 
   while(i < scelta){
     printf("inserire elemento %d: ", i+1);
-    scanf("%d", &x);
-
-    if(!inserisciInABR(radice, x)){
-      printf("Elemento già presente.\n");
+    if(getInt(&x)){
+      if(!inserisciInABR(radice, x)){
+        printf("Elemento già presente.\n");
+      }else{
+        i++;
+      }
     }else{
-      i++;
+      printf("Elemento non valido\n");
     }
   }
   printf("\n");

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "queuelib.h"
+#include "inputReader.h"
 
 queue *creaQueue(int dim_max){
 
@@ -36,15 +37,18 @@ void riempiQueue(queue *Q){
 
     do{
       printf("Quanti elementi inserire nella coda?: ");
-      scanf("%d", &scelta);
-    }while(scelta < 0);
+    }while(!getPositive(&scelta));
 
     while(i < scelta && !queueFull(Q)){
-      printf("inserire elemento %d: ", i+1);
-      scanf("%d", &x);
 
-      enqueue(Q, x);
-      i++;
+      printf("inserire elemento %d: ", i+1);
+
+      if(getInt(&x)){
+        enqueue(Q, x);
+        i++;
+      }else{
+        printf("Elemento non valido\n");
+      }
     }
 
   }else{

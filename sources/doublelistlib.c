@@ -1,22 +1,28 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "doublelistlib.h"
+#include "inputReader.h"
 
 dlista inizializzaListaDop(dlista top){
 
   int scelta = -1;
-  int x, i;
+  int x, i = 0;
   dlista ret = top;
 
   do{
     printf("Quanti elementi inserire nella lista doppia?: ");
-    scanf("%d", &scelta);
-  }while(scelta < 0);
+  }while(!getPositive(&scelta));
 
-  for(i = 0; i < scelta; i++){
+  while(i < scelta){
+
     printf("inserire elemento %d: ", i+1);
-    scanf("%d", &x);
-    ret = aggiungiInCodaDop(ret, x);
+
+    if(getInt(&x)){
+      ret = aggiungiInCodaDop(ret, x);
+      i++;
+    }else{
+      printf("Elemento non valido\n");
+    }
   }
   printf("\n");
 

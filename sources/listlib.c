@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "listlib.h"
+#include "inputReader.h"
 
 void stampaListaHelper(lista top){
 

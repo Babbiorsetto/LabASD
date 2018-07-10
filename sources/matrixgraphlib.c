@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "matrixgraphlib.h"
+#include "inputReader.h"
 
 int grafoVuotoMatrix(grafomat *g){
   return (g == NULL);
@@ -60,7 +61,6 @@ int nuovoGrafoMatrix(int vertici, grafomat **g, int pesato){   //Funzione che co
 
 void menuGrafoMatrix(grafomat *g){
 
-  int i;
   int scelta = -1, esci = 0;
   int part, arr, peso = 0;
 
@@ -70,21 +70,25 @@ void menuGrafoMatrix(grafomat *g){
 
       do{
         printf("Seleziona operazione\n1 = aggiungiArco\n2 = rimuoviArco\n3 = esci\n");
-        scanf("%d", &scelta);
+        getPositive(&scelta);
       }while(scelta < 1 || scelta > 3);
 
       if(scelta == 1 || scelta == 2){
-        printf("Inserire il vertice di partenza:\n");
-        scanf("%d", &part);
+        do{
+          printf("Inserire il vertice di partenza (max %d):", (g->n_vertici)-1);
+        }while(!getPositive(&part));
 
-        printf("Inserire il vertice di arrivo.\n");
-        scanf("%d", &arr);
+        do{
+          printf("Inserire il vertice di arrivo (max %d): ", (g->n_vertici)-1);
+        }while(!getPositive(&arr));
 
         if(g->pesato == 1 && scelta == 1){  //se l'operazione è di aggiunta e il grafo è pesato, allora viene preso da tastiera il peso.
-          printf("Inserire il peso dell'arco.\n");
-          scanf("%d", &peso);
+          do{
+            printf("Inserire il peso dell'arco.\n");
+          }while(!getPositive(&peso));
         }
       }
+
       printf("\n");
 
       switch(scelta){
@@ -186,7 +190,7 @@ int modificaArcoMatrix(grafomat *g, int partenza, int arrivo, int op, int peso){
         ret = 1;
 
       }else{
-        printf("ERRORE: Vertice di partenza o arrivo non presenti\n");
+        printf("ERRORE: Vertice di partenza o arrivo non presenti\n");//TODO questo controllo si puo' rimuovere perché viene effettuato in altri posti (aggiungi, rimuovi)
       }
     }else{
       printf("ERRORE: Impossibile inserire arco pesato in grafo non pesato\n");
@@ -200,42 +204,60 @@ int modificaArcoMatrix(grafomat *g, int partenza, int arrivo, int op, int peso){
 int aggiungiArcoMatrix(grafomat *g, int partenza, int arrivo){
 
   int ret = 1;
-  if(g->adiacenti[(partenza * g->n_vertici) + arrivo] == 0){
-    if(!modificaArcoMatrix(g, partenza, arrivo, 1, 0)){
-      printf("Impossibile aggiungere arco.\n");
-      ret = 0;
+
+  if(partenza < g->n_vertici && arrivo < g->n_vertici){
+    if(g->adiacenti[(partenza * g->n_vertici) + arrivo] == 0){
+      if(!modificaArcoMatrix(g, partenza, arrivo, 1, 0)){
+        printf("Impossibile aggiungere arco.\n");
+        ret = 0;
+      }
+    }else{
+      printf("L'arco %d -> %d e' gia' presente nel grafo\n", partenza, arrivo);
     }
   }else{
-    printf("L'arco %d -> %d e' gia' presente nel grafo\n", partenza, arrivo);
+    printf("Il vertice di partenza o arrivo non esiste\n");
   }
+
   return ret;//Ritorna 1 se l'arco è stato aggiunto o è già presente, 0 altrimenti.
 }
 
 int aggiungiArcoPesatoMatrix(grafomat *g, int partenza, int arrivo, int peso){
 
   int ret = 1;
-  if(g->adiacenti[(partenza * g->n_vertici) + arrivo] == 0){//evita di chiamare modificaArcoMatrix per non modificare il peso dell'arco e mantenere il comportamento della libreria con liste
-    if(!modificaArcoMatrix(g, partenza, arrivo, 1, peso)){
-      printf("Impossibile aggiungere arco\n");
-      ret = 0;
+
+  if(partenza < g->n_vertici && arrivo < g->n_vertici){
+    if(g->adiacenti[(partenza * g->n_vertici) + arrivo] == 0){//evita di chiamare modificaArcoMatrix per non modificare il peso dell'arco e mantenere il comportamento della libreria con liste
+      if(!modificaArcoMatrix(g, partenza, arrivo, 1, peso)){
+        printf("Impossibile aggiungere arco\n");
+        ret = 0;
+      }
+    }else{
+      printf("L'arco %d -> %d e' gia' presente nel grafo\n", partenza, arrivo);
     }
   }else{
-    printf("L'arco %d -> %d e' gia' presente nel grafo\n", partenza, arrivo);
+    printf("Il vertice di partenza o arrivo non esiste\n");
   }
+
   return ret;
 }
 
 int rimuoviArcoMatrix(grafomat *g, int partenza, int arrivo){
 
     int ret = 1;
-    if(g->adiacenti[(partenza * g->n_vertici) + arrivo] == 1){
-      if(!modificaArcoMatrix(g, partenza, arrivo, 0, 0)){
-        printf("Impossibile rimuovere arco.\n");
-        ret = 0;
+
+    if(partenza < g->n_vertici && arrivo < g->n_vertici){
+      if(g->adiacenti[(partenza * g->n_vertici) + arrivo] == 1){
+        if(!modificaArcoMatrix(g, partenza, arrivo, 0, 0)){
+          printf("Impossibile rimuovere arco.\n");
+          ret = 0;
+        }
+      }else{
+        printf("L'arco non e' presente nel grafo\n");
       }
     }else{
-      printf("L'arco non e' presente nel grafo\n");
+      printf("Il vertice di partenza o arrivo non esiste\n");
     }
+
     return ret;//Ritorna 1 se l'arco è stato rimosso o è non era presente, 0 altrimenti.
 }
 
