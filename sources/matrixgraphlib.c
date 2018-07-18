@@ -383,7 +383,7 @@ int rimuoviVerticeMatrix(grafomat *g, int vertice){
     if(matrice != NULL){
       while(j < vertici * vertici){
 
-        if(i % g->n_vertici == vertice){ //tutti gli archi che vanno nel vertice da eliminare
+        if(i != 0 && i % g->n_vertici == vertice){ //tutti gli archi che vanno nel vertice da eliminare
           i++;
         }else if(i == vertice * g->n_vertici){ //primo arco del vertice da eliminare
           i += g->n_vertici;
