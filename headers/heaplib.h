@@ -1,5 +1,5 @@
-#ifndef HEAPLIB_H
-#define HEAPLIB_H
+#ifndef HEAP_LIB_H
+#define HEAP_LIB_H
 
 void riempiArray(int *array, int dimensione);
 //dato un array, prompta l'utente per [dimensione] interi da inserire nell'array
@@ -26,9 +26,8 @@ void heapSort(int *heap, int dimensione);
 //dato un heap rappresentato in array e il numero di elementi che contiene, mette gli elementi nell'array in ordine crescente
 
 int eliminaInHeap(int *heap, int target, int *dimensione);
-/*dato un heap rappresentato in un array, un intero target e il numero di elementi nell'heap, ricerca target nell'heap e lo elimina.
-  Dopodiché ripristina la regola dell'heap su tutto l'heap.
-  Ritorna 1 se l'eliminazione ha avuto successo, 0 se target non è presento nell'heap.
+/*dato un heap rappresentato in un array, un intero target e il numero di elementi nell'heap
+*ricerca target nell'heap e lo elimina, dopodiché ripristina la regola dell'heap su tutto l'heap
+*ritorna 1 se l'eliminazione ha avuto successo, 0 se target non è presento nell'heap.
 */
-
 #endif

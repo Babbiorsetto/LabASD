@@ -1,30 +1,73 @@
 #ifndef DOUBLE_LIST_LIB_H
 #define DOUBLE_LIST_LIB_H
 
-typedef struct delem delem;
+//*******************************************************************************
+//includere srand((unsigned int)time(0)) nel main se si fa uso di randomizzaListaDop
+//*******************************************************************************
+
+typedef struct delem{
+    int info;
+    struct delem *prev;
+    struct delem *next;
+}delem;
 
 typedef delem* dlista;
 
+/*
+*******************************************************
+*una lista vuota e' rappresentata con un puntatore dlista contenente NULL
+*Inizializzare sempre a NULL i puntatori a dliste vuote
+*******************************************************
+*/
+
+dlista inizializzaListaDop(dlista top);
+/*data una lista doppiamente puntata
+*chiede all'utente quanti elementi vuole inserire in essa e, nel caso in cui siano più di 0, li inserisce.
+*ritorna un puntatore alla testa della lista
+*/
 void stampaListaDop(dlista top);
-/*Stampa la lista doppiamente concatenata.
+/*data una lista doppiamente puntata
+*stampa in stdout la lista
 */
 dlista newElemDop(int k);
-/*Crea un nuovo nodo di lista doppiamente concatenata e inserisce l'intero k nel campo info.
+/*dato un intero k
+*alloca spazio per un nuovo nodo di lista doppiamente puntata contenente l'intero
+*restituisce un puntatore al nodo così creato
 */
-dlista precedente(dlista nodo);
-/*Prende un puntatore a nodo di una lista doppaimente concatenata e restituisce il puntatore contenuto nell'elemento prev del nodo.
+dlista precedenteDop(dlista nodo);
+/*prende un puntatore a nodo di lista doppiamente puntata
+*se nodo non e' NULL
+*restituisce un puntatore all'elemento precedente
 */
-dlista successivo(dlista nodo);
-/*restituisce il next del nodo puntato dal puntatore "nodo"*/
-
-int elemento(dlista nodo);
-/*restituisce l'elemento contenuto nel nodo*/
-
+dlista successivoDop(dlista nodo);
+/*prende un puntatore a nodo di lista doppiamente puntata
+*se nodo non e' NULL
+*restituisce un puntatore all'elemento successivo
+*/
+int valoreDiDop(dlista nodo);
+/*prende un puntatore a nodo di lista doppiamente puntata
+*se nodo non e' NULL
+*restituisce l'intero contenuto nel nodo
+*/
 dlista aggiungiInTestaDop(dlista top, int k);
-
-dlista aggiungiInCodaDop(dlista top, int k);
-
-dlista eliminaTopDop(dlista top);
-/*Elimina il top della lista puntata da "top". Restituisce il nuovo top.
+/*data una lista doppiamente puntata e un intero
+*aggiunge un nodo contenente l'intero in testa alla lista
+*restituisce il nuovo top della lista
 */
-#endif DOUBLE_LIST_LIB_H
+dlista aggiungiInCodaDop(dlista top, int k);
+/*data una lista doppiamente puntata e un intero
+*aggiunge un nodo contenente l'intero in coda alla lista
+*restituisce il top della lista eventualmente modificato
+*/
+dlista eliminaTopDop(dlista top);
+/*data una lista doppiamente puntata
+*elimina il top della lista
+*restituisce il nuovo top, NULL nel caso la lista fosse gia' vuota o contenesse un solo nodo
+*/
+dlista randomizzaListaDop(dlista top, int numeroElementi, int valoreMax);
+/*data una lista doppiamente puntata e due interi
+*se valoreMax e' maggiore di 0
+*inserisce nella lista numeroElementi interi compresi fra 1 e valoreMax
+*restituisce il nuovo top della lista
+*/
+#endif //DOUBLE_LIST_LIB_H

@@ -1,22 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "graphlib.h"
-
-typedef struct arco{
-  int key;
-  struct arco *next;
-}arco;
-
-typedef struct grafo{
-  int n_vertici;
-  arco **adiacenti;
-}grafo;
+#include "inputReader.h"
 
 int grafoVuoto(grafo *g){
     return (g == NULL);
 }
 
-int nuovoGrafo(int vertici, grafo **g){
+int nuovoGrafo(int vertici, grafo **g, int pesato){
 
   grafo *nuovo;
   int ret = 0;//inizializzata a 0 per gestire implicitamente i casi in cui non fosse possibile allocare memoria
@@ -32,6 +23,12 @@ int nuovoGrafo(int vertici, grafo **g){
       if(nuovo->adiacenti != NULL){//se ha allocato il vettore di liste
         for(i = 0; i < vertici; i++){//pone tutte le liste a NULL
           nuovo->adiacenti[i] = NULL;
+        }
+
+        if(pesato == 0){
+          nuovo->pesato = 0;
+        }else{
+          nuovo->pesato = 1;
         }
 
         *g = nuovo;//pone il valore del puntatore parametro alla posizione del grafo allocato
@@ -50,6 +47,71 @@ int nuovoGrafo(int vertici, grafo **g){
   return ret;//ritorna 1 o 0 a seconda che la creazione sia andata a buon fine o meno
 }
 
+void menuGrafo(grafo *g){
+
+  int scelta = -1, esci = 0;
+  int part, arr, peso = 0;
+
+  if(!grafoVuoto(g)){
+
+    while(esci == 0){
+
+      do{
+        printf("Seleziona operazione\n1 = aggiungiArco\n2 = rimuoviArco\n3 = esci\n");
+        getPositive(&scelta);
+      }while(scelta < 1 || scelta > 3);
+
+
+      if(scelta == 1 || scelta == 2){
+        do{
+          printf("Inserire il vertice di partenza (max %d): ", (g->n_vertici)-1);
+        }while(!getPositive(&part));
+
+        do{
+          printf("Inserire il vertice di arrivo (max %d): ", (g->n_vertici)-1);
+        }while(!getPositive(&arr));
+
+        if(g->pesato == 1 && scelta == 1){  //se l'operazione è di aggiunta e il grafo è pesato, allora viene preso da tastiera il peso.
+
+          do{
+            printf("Inserire il peso dell'arco: ");
+          }while(!getPositive(&peso));
+
+        }
+      }
+      printf("\n");
+
+      switch(scelta){
+        case 1:
+          aggiungiArcoPesato(g, part, arr, peso);
+          break;
+        case 2:
+          rimuoviArco(g, part, arr);
+          break;
+        case 3:
+          esci = 1;
+          break;
+      }
+
+    }
+  }
+
+  return;
+}
+
+int isPesato(grafo *g){
+
+  int ret = 0;
+
+  if(!grafoVuoto(g)){
+    ret = g->pesato;
+  }else{
+    printf("ERRORE in isPesato: Il grafo e' vuoto\n");
+  }
+
+  return ret;
+}
+
 void stampaGrafo(grafo *g){
 
   int i;
@@ -62,9 +124,14 @@ void stampaGrafo(grafo *g){
       curr = g->adiacenti[i];
 
       while(curr != NULL){
-        printf("%d -> %d\n", i, curr->key);
+        printf("%d -", i);
+        if(g->pesato == 1){
+          printf("-%d-", curr->peso);
+        }
+        printf("> %d\t", curr->key);
         curr = curr->next;
       }
+      printf("\n");
     }
   }else{
     printf("ERRORE in stampaGrafo: grafo vuoto\n");
@@ -73,13 +140,18 @@ void stampaGrafo(grafo *g){
   return;
 }
 
-arco *nuovoArco(int destinazione){
+arco *nuovoArco(int destinazione, int peso){
 
   arco *nuovo = NULL;
 
   nuovo = (arco*)malloc(sizeof(arco));
-  nuovo->key = destinazione;
-  nuovo->next = NULL;
+  if(nuovo != NULL){
+    nuovo->key = destinazione;
+    nuovo->next = NULL;
+    nuovo->peso = peso;
+  }else{
+    printf("ERRORE: memoria insufficiente\n");
+  }
 
   return nuovo;
 }
@@ -117,39 +189,49 @@ int numeroArchi(grafo *g){
   return ret;
 }
 
-int aggiungiArco(grafo *g, int partenza, int arrivo){
+int aggiungiArcoPesato(grafo *g, int partenza, int arrivo, int peso){
 
   arco *curr;
   int ret = 0;
 
   if(!grafoVuoto(g)){
 
-    if(partenza < g->n_vertici && arrivo < g->n_vertici){
+    if(g->pesato == 1 || peso == 0){
 
-      curr = g->adiacenti[partenza];//imposta curr al primo arco uscente da partenza
-      while(curr != NULL && curr->next != NULL && curr->key != arrivo){
-        /*arriva alla fine della lista di adiacenza di partenza
-        o si ferma prima se l'arco con arrivo uguale e' gia' presente*/
-        curr = curr->next;
-      }
+      if(partenza < g->n_vertici && arrivo < g->n_vertici){
 
-      if(curr == NULL){//se la lista di adiacenza era vuota
-        g->adiacenti[partenza] = nuovoArco(arrivo);//crea un arco e modifica il puntatore nell'array perche' punti a questo
-        ret = 1;
-      }else if(curr->next == NULL){//se e' arrivato alla fine della lista
-        curr->next = nuovoArco(arrivo);//crea un arco e lo imposta come successivo dell'ultimo
-        ret = 1;
-      }else{//l'arco era gia' presente
-        printf("L'arco e' gia' presente nel grafo\n");
-        ret = 1;
+        curr = g->adiacenti[partenza];//imposta curr al primo arco uscente da partenza
+        while(curr != NULL && curr->next != NULL && curr->key != arrivo){
+          /*arriva alla fine della lista di adiacenza di partenza
+          o si ferma prima se l'arco con arrivo uguale e' gia' presente*/
+          curr = curr->next;
+        }
+
+        if(curr == NULL){//se la lista di adiacenza era vuota
+          g->adiacenti[partenza] = nuovoArco(arrivo, peso);//crea un arco e modifica il puntatore nell'array perche' punti a questo
+          ret = 1;
+        }else if(curr->next == NULL){//se e' arrivato alla fine della lista
+          curr->next = nuovoArco(arrivo, peso);//crea un arco e lo imposta come successivo dell'ultimo
+          ret = 1;
+        }else{//l'arco era gia' presente
+          printf("L'arco %d -> %d e' gia' presente nel grafo\n", partenza, arrivo);
+          ret = 1;
+        }
+      }else{
+        printf("Non esiste il vertice di partenza o di arrivo\n");
       }
     }else{
-      printf("Non esiste il vertice di partenza o di arrivo\n");
+      printf("Impossibile inserire arco pesato in grafo non pesato\n");
     }
   }else{
-    printf("Il grafo e' vuoto");
+    printf("Il grafo e' vuoto\n");
   }
   return ret;
+}
+
+int aggiungiArco(grafo *g, int partenza, int arrivo){
+
+  return aggiungiArcoPesato(g,partenza,arrivo,0);
 }
 
 int rimuoviArco(grafo *g, int partenza, int arrivo){
@@ -193,9 +275,53 @@ int rimuoviArco(grafo *g, int partenza, int arrivo){
   return ret;
 }
 
-int esisteArco(grafo *g, int i, int j){//TODO scrivere funzione esisteArco
-  printf("TODO scrivere funzione esisteArco\n");
-  return -1;
+int esisteArco(grafo *g, int partenza, int arrivo){
+
+  int ret = 0;
+  arco *curr;
+
+  if(!grafoVuoto(g)){
+    if(partenza <= g->n_vertici && arrivo <= g->n_vertici){
+
+      curr = g->adiacenti[partenza];
+      while(curr != NULL && ret == 0){
+
+        if(curr->key == arrivo){
+          ret = 1;
+        }
+        curr = curr->next;
+      }
+    }else{
+      printf("ERRORE in esisteArco: vertice di partenza o arrivo fuori dal range\n");
+    }
+  }else{
+    printf("ERRORE in esisteArco: grafo vuoto\n");
+  }
+
+  return ret;
+}
+
+int pesoArco(grafo *g, int partenza, int arrivo){
+
+  arco *curr = NULL;
+  int ret = 0;
+
+  if(!grafoVuoto(g)){
+    if(esisteArco(g, partenza, arrivo)){//forse esisteArco dovrebbe anche in qualche modo ritornare un puntatore all'arco se esiste?
+
+      curr = g->adiacenti[partenza];
+      while(curr->key != arrivo){
+        curr = curr->next;
+      }
+      ret = curr->peso;
+    }else{
+      printf("ERRORE in pesoArco: l'arco non esiste\n");
+    }
+  }else{
+    printf("ERRORE in pesoArco: grafo vuoto\n");
+  }
+
+  return ret;
 }
 
 int esisteVertice(grafo *g, int v){
@@ -297,26 +423,47 @@ int rimuoviVertice(grafo *g, int vertice){
         g->n_vertici = g->n_vertici - 1;//riduce il numero di vertici nella struttura grafo
 
       }else{
-        printf("ERRORE in eliminaVertice: Impossibile allocare memoria per nuovo vettore delle adiacenze\n");
+        printf("ERRORE in rimuoviVertice: Impossibile allocare memoria per nuovo vettore delle adiacenze\n");
       }
     }else{
-      printf("ERRORE in eliminaVertice: Vertice da eliminare fuori dal range del grafo\n");
+      printf("ERRORE in rimuoviVertice: Vertice da rimuovere fuori dal range del grafo\n");
     }
   }else{
-    printf("ERRORE in eliminaVertice: Il grafo e' vuoto\n");
+    printf("ERRORE in rimuoviVertice: Il grafo e' vuoto\n");
   }
   return ret;
 }
 
-int comparaGrafi(grafo *g1, grafo *g2) {
-  printf("TODO: fare funzione comparagrafi.\n");
-  return 0;
+void randomizzaGrafoPesato(grafo *g, int massimo){
+
+  int j, z;
+
+  if(!grafoVuoto(g)){
+    if(g->pesato == 1){
+      if(massimo > 0){
+        for(j = 0; j < numeroVertici(g); j++){
+          for(z = 0; z < numeroVertici(g); z++){
+            if(rand() % 2 == 1){
+              aggiungiArcoPesato(g, j, z, rand() % (massimo+1));
+            }
+          }
+        }
+      }else{
+        printf("ERRORE in randomizzaGrafoPesato: massimo negativo\n");
+      }
+    }else{
+      printf("ERRORE in randomizzaGrafoPesato: il grafo non e' pesato\n");
+    }
+  }else{
+    printf("ERRORE in randomizzaGrafoPesato: Il grafo e' vuoto\n");
+  }
+
+  return;
 }
 
 void randomizzaGrafo(grafo *g){
   int j, z;
-  srand(time(0));
-  
+
   if(!grafoVuoto(g)){
 
     for(j = 0; j < numeroVertici(g); j++){
@@ -326,8 +473,10 @@ void randomizzaGrafo(grafo *g){
         }
       }
     }
+
   }else{
-    printf("ERRORE in randomizzaGrafo: il puntatore a grafo passato alla funzione e' NULL.\n");
+    printf("ERRORE in randomizzaGrafo: Il grafo e' vuoto.\n");
   }
+
   return;
 }
