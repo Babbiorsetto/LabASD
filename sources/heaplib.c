@@ -67,7 +67,7 @@ void heapSort(int heap[], int dimensione){
   return;
 }
 
-void riempiArray(int array[], int dimensione){
+void riempi(int array[], int dimensione){
 
   int i;
 
@@ -113,7 +113,7 @@ int eliminaInHeap(int heap[], int target, int *dimensione){
   return ret;
 }
 
-void stampaArray(int array[], int dimensione){
+void stampa(int array[], int dimensione){
 
   int i;
 

@@ -1,10 +1,10 @@
 #ifndef HEAPLIB_H
 #define HEAPLIB_H
 
-void riempiArray(int *array, int dimensione);
+void riempi(int *array, int dimensione);
 //dato un array, prompta l'utente per [dimensione] interi da inserire nell'array
 
-void stampaArray(int *array, int dimensione);
+void stampa(int *array, int dimensione);
 //dato un array, stampa a standard output i primi [dimensione] elementi, non effettua controlli di bound superiore
 
 void heapify(int *albero, int radice, int dimensione);
