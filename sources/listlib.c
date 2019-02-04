@@ -1,26 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "listlib.h"
+#include "inputReader.h"
 
-typedef struct elem
-{
-    int info;
-    struct elem *next;
-}elem;
-/*La struttura utilizzata e' una lista singolarmente puntata i cui nodi sono implementati come struct
-info contiene un intero, next e' un puntatore al prossimo nodo della lista
-il typedef permette di sostituire la dicitura "struct elem" con il piu' snello "elem" */
+void stampaListaHelper(lista top){
 
-typedef elem* lista;
-/*un puntatore ad elem e' a tutti gli effetti una lista, quindi viene rinominato "lista"
-un dato di tipo lista per essere coerente deve alternativamente puntare a un nodo di lista o essere NULL*/
+  if(top != NULL){
+    printf("%d -> ", top->info);//stampa il campo info del top della lista
+    stampaListaHelper(top->next);//richiama sul resto della lista
+  }
+
+  return;
+}
 
 void stampaLista(lista top){
 
-  if(top != NULL){
-    printf("%d ", top->info);//stampa il campo info del top della lista
-    stampaLista(top->next);//richiama sul resto della lista
-  }
+  stampaListaHelper(top);
+  printf("//\n");
 
   return;
 }
@@ -33,7 +29,7 @@ lista successivo (lista nodo){
   return ret;
 }
 
-int elemento(lista nodo)
+int valoreDi(lista nodo)
 {
   int ret = 0;
   if(nodo != NULL){
@@ -98,47 +94,4 @@ lista eliminaTop(lista top){
   }
 
   return top;
-}
-
-int controllaOrdine(lista top){
-
-  int ret = 1;
-
-  if(top != NULL && top->next != NULL){//se non si trova nel caso base implicito in cui la lista è vuota o contiene un solo elemento (in tal caso e' sempre ordinata)
-    if(top->info > top->next->info || !controllaOrdine(top->next)){//controlla se il top non è minore del successivo o il resto della lista non è ordinato
-      ret = 0;//solo se una delle condizioni e' vera la lista non e' ordinata
-    }
-  }
-
-  return ret;
-}
-
-lista eliminaRipetizioni(lista top){
-
-  lista temp;
-
-  if(top != NULL && top->next != NULL){//se la lista e' formata da almeno due elementi
-
-    temp = eliminaRipetizioni(top->next);//elimina ripetizioni nel resto della lista
-    top->next = temp;//concatena il top al resto con ripetizioni eliminate
-
-    if(top->info == top->next->info){//se c'e' ripetizione fra il top e il successivo
-      free(top);//elimina il top
-      top = temp;//imposta il suo successivo come nuovo top
-    }
-  }
-  return top;
-}
-
-lista interleaving(lista prima, lista seconda){
-
-  if(seconda == NULL)//se una delle due liste e' vuota ritorna l'altra
-    return prima;
-  else if(prima == NULL)
-    return seconda;
-  else{//se nessuna delle due e' vuota
-    seconda->next = interleaving(prima->next, seconda->next);//dopo il top di seconda andra' l'interleaving fra il resto delle due liste
-    prima->next = seconda;//dopo il top di prima andra' il top di seconda
-  }
-  return prima;
 }

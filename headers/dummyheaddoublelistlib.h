@@ -1,8 +1,14 @@
 #ifndef DUMMY_HEAD_DOUBLE_LIST_LIB_H
 #define DUMMY_HEAD_DOUBLE_LIST_LIB_H
 
-typedef struct dummyNode dummyNode;
+typedef struct dummyNode{
+  int info;
+  struct dummyNode *prev;
+  struct dummyNode *next;
+} dummyNode;
+
 typedef dummyNode* dummyList;
+
 /* Libreria per le liste circolari doppiamente concatenate con elemento fittizio. */
 
 int listaVuotaDummy(dummyList dum);

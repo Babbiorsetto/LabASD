@@ -1,7 +1,11 @@
-#ifndef LISTLIB_H
-#define LISTLIB_H
+#ifndef LIST_LIB_H
+#define LIST_LIB_H
 
-typedef struct elem elem;
+typedef struct elem
+{
+    int info;
+    struct elem *next;
+}elem;
 /*un elem e' un nodo, elemento costitutivo di una lista*/
 
 typedef elem* lista;
@@ -14,13 +18,14 @@ void stampaLista(lista top);
 lista successivo(lista nodo);
 /*restituisce il next del nodo puntato da nodo*/
 
-int elemento(lista nodo);
-/*restituisce l'elemento contenuto nel nodo*/
+int valoreDi(lista nodo);
+/*restituisce l'intero contenuto nel nodo*/
 
 lista newElem(int k);
-/*alloca memoria per un nuovo elemento
-ritorna un puntatore all'elemento*/
-
+/*dato un intero
+*alloca memoria per un nuovo nodo contenente l'intero
+*ritorna un puntatore al nodo creato
+*/
 lista aggiungiInTesta(lista top, int k);
 /*data una lista top e un intero k, inserisce un nuovo nodo con valore k in testa alla lista
 ritorna la posizione della nuova testa della lista*/
@@ -39,18 +44,4 @@ ritorna NULL se e' andata a buon fine*/
 lista eliminaTop(lista top);
 /*elimina la testa, dealloca la memoria
 ritorna la nuova testa*/
-
-int controllaOrdine(lista top);
-/*data una lista verifica che gli elementi siano in ordine crescente in senso largo
-ritorna 1 se lo sono, 0 se no*/
-
-lista interleaving(lista prima, lista seconda);
-/*date due liste costruisce una lista formata dagli elementi della prima alternati a quelli della seconda
-ritorna il puntatore alla lista ottenuta da questa operazione
-distrugge le liste originali*/
-
-lista eliminaRipetizioni(lista top);
-/*data una lista, elimina le eventuali ripetizioni consecutive dello stesso elemento lasciandone una sola occorrenza
-ritorna il puntatore alla lista privata delle ripetizioni*/
-
-#endif // LISTLIB_H
+#endif // LIST_LIB_H
