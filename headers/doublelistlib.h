@@ -15,8 +15,11 @@ typedef delem* dlista;
 
 /*
 *******************************************************
-*una lista vuota e' rappresentata con un puntatore dlista contenente NULL
-*Inizializzare sempre a NULL i puntatori a dliste vuote
+* Una lista vuota e' rappresentata con una variabile di tipo dlista contenente NULL.
+* Inizializzare sempre a NULL le variabili dlista che rappresentano liste vuote.
+* Nella realta' una dlista e' un puntatore al nodo testa della lista.
+* Le funzioni che modificano la testa prendono direttamente una dlista
+* (non hanno bisogno di un puntatore a dlista), ma ritornano la nuova testa.
 *******************************************************
 */
 
@@ -71,3 +74,15 @@ dlista randomizzaListaDop(dlista top, int numeroElementi, int valoreMax);
 *restituisce il nuovo top della lista
 */
 #endif //DOUBLE_LIST_LIB_H
+
+/*
+int main() {
+
+  dlista myLista = NULL;
+  myLista = inizializzaListaDop(myLista);
+  myLista = aggiungiInCodaDop(myLista, 42);
+  stampaListaDop(myLista);
+
+  return 0;
+}
+*/

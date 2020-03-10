@@ -15,8 +15,11 @@ typedef nodo* albero;
 
 /*
 *******************************************************
-*un albero vuoto e' rappresentato con un puntatore albero contenente NULL
-*Inizializzare sempre a NULL i puntatori a alberi vuoti
+* Un albero vuoto e' rappresentato con una variabile di tipo albero contenente NULL.
+* Inizializzare sempre a NULL le variabili albero che rappresentano alberi vuoti.
+* Nella realta' un albero e' un puntatore al nodo radice.
+* Le funzioni che modificano la radice hanno bisogno di un puntatore ad albero,
+* questo puo' essere la posizione di memoria della radice.
 *******************************************************
 */
 
@@ -82,3 +85,17 @@ void randomizzaABR(albero *radice, int numeroElementi, int valoreMax);
 *inizializza l'ABR con numeroElementi interi compresi fra 1 e valoreMax
 */
 #endif
+
+/* Utilizzo
+
+int main() {
+
+  albero myAlbero = NULL;
+  inizializzaABR(&myAlbero);
+  inserisciInABR(&myAlbero, 42);
+  ...
+  visitaInOrder(myAlbero);
+
+  return 0;
+}
+*/
